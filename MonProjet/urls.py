@@ -21,4 +21,5 @@ from recettes import views as recettes_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('recettes/', recettes_views.liste_recettes, name='liste_recettes'),
+    path('ajouter/', recettes_views.ajouter_recette, name='ajouter_recette'),
 ]
