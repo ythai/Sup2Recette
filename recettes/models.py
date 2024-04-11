@@ -22,7 +22,7 @@ class Commentaire(models.Model):
 class Avis(models.Model):
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE, related_name='avis')
     pseudo = models.CharField(max_length=100, default='anonymous')
-    note = models.IntegerField()
+    note = models.TextField()
     date_creation = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
