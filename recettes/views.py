@@ -28,7 +28,8 @@ def detail_recette(request, recette_id):
             if commentaire_form.is_valid():
                 commentaire = commentaire_form.save(commit=False)
                 commentaire.recette = recette
-                commentaire.auteur = request.user
+                # Supprime ou ajuste cette ligne car tu n'as pas de champ 'auteur'
+                # commentaire.auteur = request.user
                 commentaire.save()
                 return redirect('detail_recette', recette_id=recette_id)
         elif 'submit_avis' in request.POST:
@@ -36,7 +37,8 @@ def detail_recette(request, recette_id):
             if avis_form.is_valid():
                 avis_instance = avis_form.save(commit=False)
                 avis_instance.recette = recette
-                avis_instance.auteur = request.user
+                # Supprime ou ajuste cette ligne
+                # avis_instance.auteur = request.user
                 avis_instance.save()
                 return redirect('detail_recette', recette_id=recette_id)
     else:
@@ -52,7 +54,9 @@ def detail_recette(request, recette_id):
     }
     return render(request, 'recettes/detail_recette.html', context)
 
+
 @require_POST
+
 def supprimer_recette(request, recette_id):
     recette = get_object_or_404(Recette, pk=recette_id)
     recette.delete()
