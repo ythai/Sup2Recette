@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Recette
-from .forms import RecetteForm, CommentaireForm, AvisForm
+from .models import Recette, Suggestion
+from .forms import RecetteForm, CommentaireForm, AvisForm, SuggestionForm
 from django.views.decorators.http import require_POST
 
 def liste_recettes(request):
-    recettes = Recette.objects.all()  # Récupère toutes les recettes de la base de données
+    recettes = Recette.objects.all()
     return render(request, 'recettes/liste_recettes.html', {'recettes': recettes})
 
 def ajouter_recette(request):
@@ -21,15 +21,15 @@ def detail_recette(request, recette_id):
     recette = get_object_or_404(Recette, pk=recette_id)
     commentaires = recette.commentaires.all()
     avis = recette.avis.all()
-    
+    suggestion_form = SuggestionForm()
+    suggestions = recette.suggestions.all()
+
     if request.method == 'POST':
         if 'submit_commentaire' in request.POST:
             commentaire_form = CommentaireForm(request.POST)
             if commentaire_form.is_valid():
                 commentaire = commentaire_form.save(commit=False)
                 commentaire.recette = recette
-                # Supprime ou ajuste cette ligne car tu n'as pas de champ 'auteur'
-                # commentaire.auteur = request.user
                 commentaire.save()
                 return redirect('detail_recette', recette_id=recette_id)
         elif 'submit_avis' in request.POST:
@@ -37,9 +37,14 @@ def detail_recette(request, recette_id):
             if avis_form.is_valid():
                 avis_instance = avis_form.save(commit=False)
                 avis_instance.recette = recette
-                # Supprime ou ajuste cette ligne
-                # avis_instance.auteur = request.user
                 avis_instance.save()
+                return redirect('detail_recette', recette_id=recette_id)
+        elif 'submit_suggestion' in request.POST:
+            suggestion_form = SuggestionForm(request.POST)
+            if suggestion_form.is_valid():
+                suggestion = suggestion_form.save(commit=False)
+                suggestion.recette = recette
+                suggestion.save()
                 return redirect('detail_recette', recette_id=recette_id)
     else:
         commentaire_form = CommentaireForm()
@@ -51,6 +56,8 @@ def detail_recette(request, recette_id):
         'avis': avis,
         'commentaire_form': commentaire_form,
         'avis_form': avis_form,
+        'suggestion_form': suggestion_form,
+        'suggestions': suggestions,
     }
     return render(request, 'recettes/detail_recette.html', context)
 

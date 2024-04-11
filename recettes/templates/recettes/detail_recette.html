@@ -2,22 +2,36 @@
 <html>
   <head>
     <title>{{ recette.titre }}</title>
+    <script>
+      function toggleVisibility(elementId) {
+        var x = document.getElementById(elementId);
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+    </script>
   </head>
   <body>
     <h1>{{ recette.titre }}</h1>
     <p><strong>Ingrédients :</strong> {{ recette.ingredients }}</p>
     <p><strong>Étapes :</strong> {{ recette.etapes }}</p>
 
-    <h2>Commentaires</h2>
-    {% for commentaire in commentaires %}
-    <p>
-      <strong>{{ commentaire.pseudo }}:</strong> {{ commentaire.texte }} ({{
-      commentaire.date_creation|date:"F d, Y, P" }})
-    </p>
-
-    {% empty %}
-    <p>Aucun commentaire pour le moment.</p>
-    {% endfor %}
+    <button type="button" onclick="toggleVisibility('commentaires')">
+      Afficher les commentaires
+    </button>
+    <div id="commentaires" style="display: none">
+      <h2>Commentaires</h2>
+      {% for commentaire in commentaires %}
+      <p>
+        <strong>{{ commentaire.pseudo }}:</strong> {{ commentaire.texte }} ({{
+        commentaire.date_creation|date:"F d, Y, P" }})
+      </p>
+      {% empty %}
+      <p>Aucun commentaire pour le moment.</p>
+      {% endfor %}
+    </div>
 
     <h2>Ajouter un commentaire</h2>
     <form method="post">
@@ -25,21 +39,50 @@
       <button type="submit" name="submit_commentaire">Poster</button>
     </form>
 
-    <h2>Avis</h2>
-    {% for avis_instance in avis %}
-    <p>
-      <strong>{{ avis_instance.pseudo }}:</strong> Note : {{ avis_instance.note
-      }} ({{ avis_instance.date_creation|date:"F d, Y, P" }})
-    </p>
-
-    {% empty %}
-    <p>Aucun avis pour le moment.</p>
-    {% endfor %}
+    <button type="button" onclick="toggleVisibility('avis')">
+      Afficher les avis
+    </button>
+    <div id="avis" style="display: none">
+      <h2>Avis</h2>
+      {% for avis_instance in avis %}
+      <p>
+        <strong>{{ avis_instance.pseudo }}:</strong> Note : {{
+        avis_instance.note }} ({{ avis_instance.date_creation|date:"F d, Y, P"
+        }})
+      </p>
+      {% empty %}
+      <p>Aucun avis pour le moment.</p>
+      {% endfor %}
+    </div>
 
     <h2>Ajouter un avis</h2>
     <form method="post">
       {% csrf_token %} {{ avis_form.as_p }}
       <button type="submit" name="submit_avis">Poster</button>
     </form>
+
+    <button type="button" onclick="toggleVisibility('suggestions')">
+      Afficher les suggestions
+    </button>
+    <div id="suggestions" style="display: none">
+      <h2>Suggestions</h2>
+      {% for suggestion in suggestions %}
+      <p>
+        <strong>{{ suggestion.pseudo }}:</strong> {{ suggestion.description }}
+        ({{ suggestion.date_creation|date:"F d, Y, P" }})
+      </p>
+      {% empty %}
+      <p>Aucune suggestion pour le moment.</p>
+      {% endfor %}
+    </div>
+
+    <h2>Suggestions</h2>
+    <form method="post">
+      {% csrf_token %} {{ suggestion_form.as_p }}
+      <button type="submit" name="submit_suggestion">
+        Envoyer la suggestion
+      </button>
+    </form>
+    <a href="{% url 'liste_recettes' %}"><button>Retour</button></a>
   </body>
 </html>

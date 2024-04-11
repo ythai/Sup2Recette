@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recette, Commentaire, Avis
+from .models import Recette, Commentaire, Avis, Suggestion
 
 class RecetteForm(forms.ModelForm):
     class Meta:
@@ -17,3 +17,8 @@ class AvisForm(forms.ModelForm):
     class Meta:
         model = Avis
         fields = ['pseudo', 'note']
+
+class SuggestionForm(forms.ModelForm):
+    class Meta:
+        model = Suggestion
+        fields = ['pseudo', 'description']
