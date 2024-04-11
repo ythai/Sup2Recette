@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liste des recettes</title>
+  </head>
+  <body>
+    <h1>Liste des Recettes</h1>
+    <ul>
+      {% for recette in recettes %}
+      <li>{{ recette.titre }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
