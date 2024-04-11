@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Liste des recettes</title>
+    <title>Liste des Recettes</title>
   </head>
   <body>
     <h1>Liste des Recettes</h1>
+    <a href="{% url 'ajouter_recette' %}"
+      ><button>Ajouter une Recette</button></a
+    >
     <ul>
       {% for recette in recettes %}
       <li>
