@@ -7,7 +7,9 @@
     <h1>Liste des Recettes</h1>
     <ul>
       {% for recette in recettes %}
-      <li>{{ recette.titre }}</li>
+      <li>
+        <a href="{% url 'detail_recette' recette.id %}">{{ recette.titre }}</a>
+      </li>
       {% endfor %}
     </ul>
   </body>

@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('recettes/', recettes_views.liste_recettes, name='liste_recettes'),
     path('ajouter/', recettes_views.ajouter_recette, name='ajouter_recette'),
+    path('recettes/<int:recette_id>/', recettes_views.detail_recette, name='detail_recette'),
+    path('supprimer/<int:recette_id>/', recettes_views.supprimer_recette, name='supprimer_recette'),
 ]

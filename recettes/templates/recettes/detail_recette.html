@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ recette.titre }}</title>
+  </head>
+  <body>
+    <h1>{{ recette.titre }}</h1>
+    <p><strong>Ingrédients :</strong> {{ recette.ingredients }}</p>
+    <p><strong>Étapes :</strong> {{ recette.etapes }}</p>
+    <form action="{% url 'supprimer_recette' recette.id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Supprimer cette recette" />
+    </form>
+  </body>
+</html>
