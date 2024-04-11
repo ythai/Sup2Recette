@@ -7,9 +7,39 @@
     <h1>{{ recette.titre }}</h1>
     <p><strong>Ingrédients :</strong> {{ recette.ingredients }}</p>
     <p><strong>Étapes :</strong> {{ recette.etapes }}</p>
-    <form action="{% url 'supprimer_recette' recette.id %}" method="post">
-      {% csrf_token %}
-      <input type="submit" value="Supprimer cette recette" />
+
+    <h2>Commentaires</h2>
+    {% for commentaire in commentaires %}
+    <p>
+      <strong>{{ commentaire.pseudo }}:</strong> {{ commentaire.texte }} ({{
+      commentaire.date_creation|date:"F d, Y, P" }})
+    </p>
+
+    {% empty %}
+    <p>Aucun commentaire pour le moment.</p>
+    {% endfor %}
+
+    <h2>Ajouter un commentaire</h2>
+    <form method="post">
+      {% csrf_token %} {{ commentaire_form.as_p }}
+      <button type="submit" name="submit_commentaire">Poster</button>
+    </form>
+
+    <h2>Avis</h2>
+    {% for avis_instance in avis %}
+    <p>
+      <strong>{{ avis_instance.pseudo }}:</strong> Note : {{ avis_instance.note
+      }} ({{ avis_instance.date_creation|date:"F d, Y, P" }})
+    </p>
+
+    {% empty %}
+    <p>Aucun avis pour le moment.</p>
+    {% endfor %}
+
+    <h2>Ajouter un avis</h2>
+    <form method="post">
+      {% csrf_token %} {{ avis_form.as_p }}
+      <button type="submit" name="submit_avis">Poster</button>
     </form>
   </body>
 </html>
